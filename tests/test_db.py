@@ -41,7 +41,7 @@ def test_init_db_creates_tables(app):
 
 def test_init_db_command(runner, app):
     # Use the CLI runner fixture from conftest.py
-    result = runner.invoke(init_db_command)
+    result = runner.invoke(init_db_command, obj=app)
 
     # Check that the CLI output contains our expected message
     assert result.exit_code == 0
