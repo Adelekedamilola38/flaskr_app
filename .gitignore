@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual env
+venv/
+.venv/
+
+# Coverage
+.coverage
+htmlcov/
+
+# Flask
+instance/
+
+# OS
+.DS_Store
+Thumbs.db
