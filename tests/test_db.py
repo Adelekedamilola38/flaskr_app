@@ -1,6 +1,7 @@
 from flaskr import db
 from flask import g
 import sqlite3
+from flaskr.db import init_db_command
 
 def test_get_close_db(app):
     with app.app_context():
@@ -34,23 +35,22 @@ def test_init_db_creates_tables(app):
         cursor = conn.execute(
             "SELECT name FROM sqlite_master WHERE type='table' AND name='user';" 
         )
-        table = cursor.fetchone
+        table = cursor.fetchone()
         assert table is not None
 
 
 def test_init_db_command(runner, app):
     # Use the CLI runner fixture from conftest.py
-    result = runner.invoke(args=["init-db"])
+    result = runner.invoke(init_db_command)
 
     # Check that the CLI output contains our expected message
+    assert result.exit_code == 0
     assert "Initialized the database." in result.output
 
     # Optionally, check that tables from schema.sql exist
     with app.app_context():
         conn = db.get_db()
-        cursor = conn.execute(
+        table = conn.execute(
             "SELECT name FROM sqlite_master WHERE type='table' AND name='user';"
-        )
-        # Replace user with an actual table from the schema
-        table = cursor.fetchone()
+        ).fetchone()
         assert table is not None
